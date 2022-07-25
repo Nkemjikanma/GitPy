@@ -7,7 +7,7 @@ import os
 import shutil
 
 # TODO: Get my auth token from somewhere in pc
-tokenFile = open('/Volumes/Nkemjika/FullStack/access_token.txt')
+tokenFile = open('<token file url>')
 token = tokenFile.read()
 token = token.strip('\n')
 
@@ -16,7 +16,7 @@ class GitPy:
     def __init__(self):
         self.token = token
         self.API_URL = 'https://api.github.com'
-        self.repo_path = '/Volumes/Nkemjika/FullStack/Python/'
+        self.repo_path = '<local repo folder>'
         self.headers = {
             "Accept": "application/vnd.github+json",
             "Authorization": "token " + self.token
@@ -58,9 +58,12 @@ class GitPy:
             os.mkdir(self.repo_name)
             os.chdir(self.repo_path + self.repo_name)
             os.system('git init')
-            os.system('git remote add origin https://github.com/Nkemjikanma/' + self.repo_name + '.git')
+            os.system('git remote add origin <github url>/' + self.repo_name + '.git')
             os.system("echo '# " + self.repo_name + "'>> README.md")
-            shutil.copyfile('/Users/nkemjika/PycharmProjects/botTrajectory/git-py/git-py.py', self.repo_path + self.repo_name + '/' + self.repo_name +".py")
+
+            # I wrote my code in the default pycharm location and created the local repo in a different folder exclusive for git
+            # If this doesn't apply to you, ignore the line below
+            shutil.copyfile('<src folder where code is written>', self.repo_path + self.repo_name + '/' + self.repo_name +".py")
             print(self.repo_path + self.repo_name + self.repo_name + ".py")
             os.system("git add . && git commit -m 'Initial commit' && git push origin master")
         except FileExistsError as err:
@@ -69,13 +72,13 @@ class GitPy:
     def delete_repo(self):
         repo_name = self.repo_name
         data = {
-            "owner": "nkemjikanma",
+            "owner": "<username>",
             "repo": repo_name
         }
         data = json.dumps(data)
         try:
             res = requests.delete(
-                self.API_URL+"/repos/nkemjikanma/" + repo_name,
+                self.API_URL+"/repos/<username>/" + repo_name,
                 data=data,
                 headers=self.headers
             )
